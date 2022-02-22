@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     pass_manager.schedulePasses();
 
     // Schedule passes scheduling
-    global_scheduler->every(std::chrono::system_clock::duration(std::chrono::seconds(24 * 60 * 60)), &SatellitePassManager::schedulePasses, &pass_manager);
+    global_scheduler->cron(configManager->getConfig().tle_update_cron, &SatellitePassManager::schedulePasses, &pass_manager);
 
     // Tell plugins we're done starting
     altiwx::eventBus->fire_event<altiwx::events::StartedEvent>({});
